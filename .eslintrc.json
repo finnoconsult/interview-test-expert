@@ -6,7 +6,9 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
-        "prettier/prettier": "error",
+        "react-hooks/rules-of-hooks": "off",
+        "no-empty-character-class": "off",
+        "prettier/prettier": "off",
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {

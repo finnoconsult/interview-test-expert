@@ -12,7 +12,7 @@ let user: UserInterface | null = null;
 const started = new Date();
 
 app.post('/api/login', jsonParser, (req, res) => {
-  if (req?.body?.username && req?.body?.password) {
+  if (req.body.username && req.body.password) {
     user = new User(req.body.username, req.body.password);
     res.status(200);
     res.send({ token: user.token });
@@ -38,8 +38,8 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/banking', function (req, res, next) {
-  const bearerToken = req.headers.authorization?.match(/^Bearer (.*)$/);
-  if (!bearerToken?.[1] || user?.token !== bearerToken[1]) {
+  const bearerToken = req.headers.authorization.match(/^Bearer (.*)$/);
+  if (!bearerToken[1] || user.token !== bearerToken[1]) {
     res.status(403);
     res.send({ error: 'not authorized' });
     user = null;
@@ -48,11 +48,11 @@ app.use('/api/banking', function (req, res, next) {
   }
 });
 
-app.get('/api/banking/transactions', (req, res) => {
-  res.send(transactions);
+app.get('/api/banking/tarnsactions', (req, res) => {
+  req.send(transactions);
 });
 app.get('/api/banking/partners', (req, res) => {
-  res.send(partners);
+  req.send(partners);
 });
 
 const port = process.env.port || 3333;

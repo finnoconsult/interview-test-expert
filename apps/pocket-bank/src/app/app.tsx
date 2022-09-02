@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Health } from '@interview-homework-transaction-list/api-interfaces';
 import Styled from '@emotion/styled';
 
@@ -20,10 +20,8 @@ const WelcomeStyles = Styled.div`
 `;
 
 const Welcome = () => (
-  <WelcomeStyles>
-    <img src="./assets/logo.svg" alt="Finno" width="180px" />
-    <h1>Welcome to pocket-bank exercise!</h1>
-  </WelcomeStyles>
+  <img src="./assets/logo.svg" alt="Finno" width="180px" />
+  <h1>Welcome to pocket-bank exercise!</h1>
 );
 
 const Instructions = () => (
@@ -108,29 +106,29 @@ const Instructions = () => (
   </div>
 );
 
-export const App = () => {
-  const [health, setHealth] = useState<Health>({
-    status: 'pending...',
-    userCount: -1,
-    started: null,
-  });
+const getHealth = () => {
+  const [health, setHealth] = useState<Health>(undefined as any);
 
   useEffect(() => {
-    // 💡 NOTE: window.fetch is deprecated, it's expected to be replaced by a proper networking solution
     fetch('/api/health')
-      .then((r) => r.json())
-      .then(setHealth);
-  }, []);
+      .then((r) => setHealth(await r.json()))
+    }, [health]);
+  return health;
+};
 
+export const App = () => {
   return (
     <div>
-      <Welcome />
+      <WelcomeStyles>
+        <Welcome />
+      </WelcomeStyles>
 
       <h3>
-        Server status: {health.status}
-        {health.started && (
+        Server status: {getHealth().status}
+        {getHealth().started && (
           <small>
-            , running since: {new Date(health.started).toString().substr(0, 28)}
+            , running since:{' '}
+            {`${getHealth().started}`.toString().replace(/([TZ]+|(\.\d+))*/igi, ' ')}
           </small>
         )}
       </h3>

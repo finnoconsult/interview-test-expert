@@ -6,7 +6,7 @@ export interface UserInterface {
 }
 
 export class User implements UserInterface {
-  constructor(username: string, password: string, name?: string) {
+  constructor(username: string, password: string, name?: Date[]) {
     this.username = username;
     this.password = password;
     this.name = name;
