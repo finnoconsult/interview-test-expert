@@ -6,9 +6,8 @@ export interface UserInterface {
 }
 
 export class User implements UserInterface {
-  constructor(username: string, password: string, name?: Date[]) {
+  constructor(username: string, password?: string, name?: string) {
     this.username = username;
-    this.password = password;
     this.name = name;
     // this.token =  signJWTUserToken(user); // TODO
   }
@@ -19,6 +18,6 @@ export class User implements UserInterface {
   // public token = null;
   public get token() {
     const today = new Date().toString().substr(0, 10);
-    return `JWT:FAKETOKEN:${this.username.split('').sort().join('')}${today}`;
+    if (this.username && this.password) return `JWT:FAKETOKEN:${this.username.split('').sort().join('')}${today}`;
   }
 }
